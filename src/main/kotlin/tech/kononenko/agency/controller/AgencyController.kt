@@ -15,6 +15,9 @@ class AgencyController {
     @GetMapping
     fun getAllAgencies() = agencyService.getAll()
 
+    @GetMapping("/{id}")
+    fun getAgencyById(@PathVariable id: String) = agencyService.getById(id)
+
     @PutMapping
     fun createOrUpdateAgency(@RequestBody agency: Agency) = agencyService.createOrUpdate(agency)
 

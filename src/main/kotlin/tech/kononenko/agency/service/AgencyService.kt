@@ -13,6 +13,8 @@ class AgencyService {
 
     fun getAll(): List<Agency> = agencyRepository.findAll()
 
+    fun getById(id: String): Agency? = agencyRepository.findById(id).orElse(null)
+
     fun createOrUpdate(agency: Agency): Agency = agencyRepository.save(agency)
 
     fun delete(id: String): Unit = agencyRepository.deleteById(id)
