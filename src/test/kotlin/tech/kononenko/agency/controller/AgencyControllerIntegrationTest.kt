@@ -16,8 +16,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
 import tech.kononenko.agency.AgencyApplication
 import tech.kononenko.agency.model.Agency
+import tech.kononenko.agency.model.CurrencyType
 import tech.kononenko.agency.repository.AgencyRepository
-
 
 @ContextConfiguration(classes = [AgencyApplication::class])
 @ExtendWith(SpringExtension::class)
@@ -101,15 +101,31 @@ internal class AgencyControllerIntegrationTest {
         mockMvc.perform(get(baseUrl + "/" + agency.id)).andExpect(status().isNotFound)
     }
 
-    private fun getSampleAgency(name: String = "Test Agency"): Agency {
+    @Test
+    fun createAgency_emptyName_badRequest() {
+        val agency = getSampleAgency(name = "")
+        mockMvc.perform(
+            put(baseUrl).content(agency.toJson()).contentType("application/json")
+        ).andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun createAgency_countryCodeLowercase_badRequest() {
+        val agency = getSampleAgency(countryCode = "us")
+        mockMvc.perform(
+            put(baseUrl).content(agency.toJson()).contentType("application/json")
+        ).andExpect(status().isBadRequest)
+    }
+
+    private fun getSampleAgency(name: String = "Test Agency", countryCode: String = "IT"): Agency {
         return Agency(
             name = name,
             country = "Italy",
-            countryCode = "IT",
+            countryCode = countryCode,
             city = "Rome",
             street = "Via Test, 1",
             contactPerson = "John Doe",
-            settlementCurrency = "EUR"
+            settlementCurrency = CurrencyType.EUR
         )
     }
 
