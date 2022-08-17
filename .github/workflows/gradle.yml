@@ -36,7 +36,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          dockerfile: ./docker/.Dockerfile
+          file: ./docker/.Dockerfile
           context: .
           push: true
           tags: konvio/kotlin-agency-api:latest
