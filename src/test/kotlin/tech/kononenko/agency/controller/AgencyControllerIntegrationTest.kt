@@ -18,6 +18,7 @@ import tech.kononenko.agency.AgencyApplication
 import tech.kononenko.agency.model.Agency
 import tech.kononenko.agency.repository.AgencyRepository
 
+
 @ContextConfiguration(classes = [AgencyApplication::class])
 @ExtendWith(SpringExtension::class)
 @WebAppConfiguration
