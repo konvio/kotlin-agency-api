@@ -4,19 +4,18 @@ services:
 
   ui:
     image: konvio/angular-agency-ui
-    ports:
-      - '4000:80'
+    network_mode: "host"
     depends_on:
       - api
 
   api:
     image: konvio/kotlin-agency-api
-    ports:
-      - '8080:8080'
+    network_mode: "host"
     depends_on:
       - mongo
 
   mongo:
     image: mongo
-    ports:
-      - '27017:27017'
+    network_mode: "host"
+    volumes:
+      - ./data/mongo:/data/db
