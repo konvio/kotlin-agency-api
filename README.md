@@ -16,3 +16,7 @@ docker-compose up -d ui
 ```
 http://localhost:4200
 ```
+- Clean up
+```
+docker-compose down --rmi all --volumes
+```
