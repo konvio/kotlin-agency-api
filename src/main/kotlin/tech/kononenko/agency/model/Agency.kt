@@ -16,7 +16,7 @@ data class Agency(
     @get:Size(max = 255, message = "Country must be at most 255 characters")
     val country: String? = null,
 
-    @get:Pattern(regexp = "^[A-Z]+$", message = "Country code must be uppercase")
+    @get:Pattern(regexp = "^[A-Z]*$", message = "Country code must be uppercase")
     @get:Size(max = 5, message = "Country code must be at most 6 characters")
     val countryCode: String? = null,
 
