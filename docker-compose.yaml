@@ -1,32 +1,19 @@
 version: '3.9'
 
 services:
-
-  ui-local:
-    build:
-      context: ./ui
-      dockerfile: ./docker/.Dockerfile
+  mongo:
+    image: mongo
     ports:
-      - "4000:80"
-    depends_on:
-      - api-local
-
-  api-local:
-    build:
-      context: ./
-      dockerfile: ./docker/.Dockerfile
-    ports:
-      - "8080:8080"
-    hostname: api
-    environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/db
-    depends_on:
-      - mongo
+      - "27017:27017"
+    volumes:
+      - ./data/mongo:/data/db
 
   ui:
     image: konvio/angular-agency-ui
     ports:
-      - "4000:80"
+      - "4200:80"
+    profiles:
+      - prod
     depends_on:
       - api
 
@@ -36,12 +23,32 @@ services:
       - "8080:8080"
     environment:
       - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/db
+    profiles:
+      - prod
     depends_on:
       - mongo
 
-  mongo:
-    image: mongo
+  ui-dev:
+    build:
+      context: ./ui
+      dockerfile: ./docker/.Dockerfile
     ports:
-      - "27017:27017"
-    volumes:
-      - ./data/mongo:/data/db
+      - "4200:80"
+    profiles:
+      - dev
+    depends_on:
+      - api-dev
+
+  api-dev:
+    build:
+      context: ./
+      dockerfile: ./docker/.Dockerfile
+    ports:
+      - "8080:8080"
+    hostname: api
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/db
+    profiles:
+      - dev
+    depends_on:
+      - mongo
